@@ -1,0 +1,11 @@
+<ng-include src="'views/navBar.html'"></ng-include>
+
+<color-picker 
+	ng-model="myColor" 
+	color-picker-format="'rgb'"
+	 color-picker-swatch-only="true"
+		></color-picker>
+<button ng-click="changeColor()">change color</button>
+<babylon-surface newColor="newColor"></babylon-surface>
+
+<!--<babylon-surface-new newColor="newColor"></babylon-surface-new>-->
