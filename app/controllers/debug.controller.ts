@@ -18,15 +18,18 @@ namespace app {
 
 		constructor($scope: IDebugControllerScope, businessLight: engine.common.business.Light) {
 			this.$scope = $scope;
+			let that : DebugController = this;
 			this.businessLight = businessLight;
-			this.$scope.newColor = new app.models.Light(1);
-
+			let newLight : app.models.Light = new app.models.Light(1);
+			newLight.state = false;
+			this.$scope.newColor = newLight;
+			
 			this.$scope.changeColor = () => {
 				const re: RegExp = /rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/;
 				const resultatParse: RegExpExecArray = re.exec(this.$scope.myColor);
-				this.$scope.newColor.color.r = parseInt(resultatParse[1], 10) / 255;
-				this.$scope.newColor.color.g = parseInt(resultatParse[2], 10) / 255;
-				this.$scope.newColor.color.b = parseInt(resultatParse[3], 10) / 255;
+				that.$scope.newColor.color.r = parseInt(resultatParse[1], 10) / 255;
+				that.$scope.newColor.color.g = parseInt(resultatParse[2], 10) / 255;
+				that.$scope.newColor.color.b = parseInt(resultatParse[3], 10) / 255;
 			};
 		}
 	}

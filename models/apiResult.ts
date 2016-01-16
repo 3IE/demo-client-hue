@@ -4,7 +4,7 @@ namespace app.models {
 	'use strict';
 
 	export class ApiResult {
-		public res: boolean;
+		public result: boolean;
 		public message: string;
 	}
 }

@@ -19,7 +19,10 @@ namespace app {
 		constructor($scope: IHomeControllerScope, businessLight: engine.common.business.Light) {
 			this.$scope = $scope;
 			this.businessLight = businessLight;
-			this.$scope.newColor = new app.models.Light(1);
+			let newLight : app.models.Light = new app.models.Light(1);
+			newLight.state = false;
+			this.$scope.newColor = newLight;
+			
 
 			this.$scope.changeColor = () => {
 				const re: RegExp = /rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/;

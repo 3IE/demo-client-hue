@@ -9,16 +9,20 @@ namespace engine.common.data {
 		 */
 		private $http: ng.IHttpService;
 		private $q: ng.IQService;
+		private $rootScope: ng.IRootScopeService;
+		private socket: SocketIOClient.Socket;
 
-		constructor($http: ng.IHttpService, $q: ng.IQService) {
+
+		constructor($http: ng.IHttpService, $q: ng.IQService, $rootScope: ng.IRootScopeService) {
 			this.$http = $http;
 			this.$q = $q;
+			this.$rootScope = $rootScope;
 		}
 
 		/* tslint:disable:typedef */
 		public static Factory() {
-			const instance = ($http: ng.IHttpService, $q: ng.IQService) => {
-				return new Light($http, $q);
+			const instance = ($http: ng.IHttpService, $q: ng.IQService, $rootScope: ng.IRootScopeService) => {
+				return new Light($http, $q, $rootScope);
 			};
 			return instance;
 		}
@@ -54,7 +58,19 @@ namespace engine.common.data {
 
 			return deferred.promise;
 		}
+
+		public realData(eventName: string, callback: Function): void {
+			this.socket = io.connect('http://localhost:3000/');
+			const that: Light = this;
+
+			this.socket.on(eventName, function() {
+				var args = arguments;
+				that.$rootScope.$apply(function() {
+					callback.apply(that.socket, args);
+				});
+			});
+		}
 	}
 
-	angular.module('common.data').factory('data.light', ['$http', '$q', Light.Factory()]);
+	angular.module('common.data').factory('data.light', ['$http', '$q', '$rootScope', Light.Factory()]);
 }

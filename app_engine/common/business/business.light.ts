@@ -31,6 +31,10 @@ namespace engine.common.business {
 		public off(lightId: number): ng.IPromise<app.models.ApiResult> {
 			return this.dataLight.off(lightId);
 		}
+		
+		public realData(eventName:string, callback:Function) : void{
+			return this.dataLight.realData(eventName, callback);
+		}
 	}
 
 	angular.module('common.business').factory('business.light', ['$q', 'data.light', Light.Factory()]);
