@@ -63,9 +63,15 @@ namespace engine.common.data {
 			this.socket = io.connect('http://localhost:3000/');
 			const that: Light = this;
 
-			this.socket.on(eventName, function() {
-				var args = arguments;
-				that.$rootScope.$apply(function() {
+			this.socket.on('connect_error', function(): void {
+				console.log('Server not responding');
+				that.socket.disconnect();
+			});
+
+
+			this.socket.on(eventName, function(): void {
+				let args: IArguments = arguments;
+				that.$rootScope.$apply(function(): void {
 					callback.apply(that.socket, args);
 				});
 			});

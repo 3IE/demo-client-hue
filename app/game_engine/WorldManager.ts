@@ -5,7 +5,6 @@ namespace app.game_engine {
 
 	export class WorldManager {
 		private activeLight: boolean;
-		// pattern memento pour eviter les appels en boucle
 		private businessLight: engine.common.business.Light;
 
 		private newColor: app.models.Light;
@@ -31,6 +30,7 @@ namespace app.game_engine {
 			scene.lights[1].setEnabled(false);
 			scene.meshes.forEach((mesh: BABYLON.Mesh) => {
 				mesh.isPickable = false;
+				// l'interrupteur de la scene
 				if (mesh.name === 'Box001') {
 					mesh.isPickable = true;
 					mesh.actionManager = new BABYLON.ActionManager(scene);
@@ -38,13 +38,12 @@ namespace app.game_engine {
 					mesh.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnLeftPickTrigger, function(evt: BABYLON.ActionEvent): void {
 						scene.beginAnimation(mesh, 0, 100, false, 10, () => {
 							that.activeLight = !that.activeLight;
-							//scene.lights[1].setEnabled(that.activeLight);
 							that.ManageLight(scene);
 						});
 					}));
 				}
 			});
-			// var camera = new BABYLON.TouchCamera("TouchCamera", new BABYLON.Vector3(-3, 4, 35), scene);
+
 			let camera: BABYLON.TouchCamera = new BABYLON.TouchCamera('TouchCamera', new BABYLON.Vector3(-72, 103, 228), scene);
 			camera.rotation = new BABYLON.Vector3(0, Math.PI, 0);
 

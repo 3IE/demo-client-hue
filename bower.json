@@ -1,6 +1,6 @@
 {
-  "name": "StarterKit",
-  "description": "Javascript Web starterKit",
+  "name": "ClientHUE",
+  "description": "Javascript Web client for philips HUE",
   "version": "0.1.0",
   "homepage": "",
   "license": "",
