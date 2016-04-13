@@ -10,5 +10,6 @@ namespace app.models {
 		}
 		public lightId: number;
 		public color: Color;
+		public state: boolean;
 	}
 }

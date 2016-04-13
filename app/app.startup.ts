@@ -3,13 +3,13 @@
 namespace app {
 	'use strict';
 
-	angular.module('starterKit', [
+	angular.module('clientHUE', [
 		'ui.router',
 		'ui.validate',
 		'color.picker',
 		'app_engine'
 	]);
-	angular.module('starterKit').config(configureStates);
+	angular.module('clientHUE').config(configureStates);
 	configureStates.$inject = ['$stateProvider', '$urlRouterProvider'];
 
 	function configureStates($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider): void {
@@ -28,12 +28,6 @@ namespace app {
 					url: '/',
 					templateUrl: 'views/home.html',
 					controller: 'HomeController'
-				},
-				{
-					name: 'debug',
-					url: '/debug',
-					templateUrl: 'views/debug.html',
-					controller: 'DebugController'
 				}
 			];
 		}

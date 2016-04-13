@@ -2,8 +2,6 @@
 
 /// <reference path="./bower_components/babylonjs/dist/babylon.2.2.d.ts"/>
 
-/// <reference path="./models/school.ts"/>
-/// <reference path="./models/user.ts"/>
 /// <reference path="./models/apiResult.ts"/>
 /// <reference path="./models/color.ts"/>
 /// <reference path="./models/light.ts"/>

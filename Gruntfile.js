@@ -1,7 +1,8 @@
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 	// load all grunt tasks without explicitly referecing them
 	require('jit-grunt')(grunt, {
-		useminPrepare: 'grunt-usemin'
+		useminPrepare: 'grunt-usemin',
+		configureProxies: 'grunt-connect-proxy'
 	});
 
 	var path = require('path');
@@ -9,14 +10,14 @@ module.exports = function (grunt) {
 		src: {
 			tsFiles: ['{app,app_engine,models,test}/**/*.ts', 'reference.ts'],
 			generatedJSFiles: ['{app,app_engine,models,test}/**/*.{js,js.map}', 'reference.{js,js.map}'],
-			staticMiscFiles: ['index.html', 'app/**/*.{html,json}', 'app/img/**'],
+			staticMiscFiles: ['index.html', 'app/**/*.{html,json}', 'app/img/**', 'app/{lamp.babylon,texture.table.jpg}'],
 			staticFontFiles: ['bower_components/bootstrap/dist/fonts/**']
 		},
 		distDir: 'dist/'
 	};
-	
+
 	//less config function for usemin
-	var lessCreateConfig = function (context, block) {
+	var lessCreateConfig = function(context, block) {
 		var cfg = { files: [] },
 			//the destination file is the one referenced in the html and it's to be placed in the context.outDir folder 
 			outfile = path.join(context.outDir, block.dest),
@@ -25,7 +26,7 @@ module.exports = function (grunt) {
 		filesDef.dest = outfile;
 		filesDef.src = [];
 		//we have to process each 'less' file referenced in the html, and they are in the 'inDir' folder 
-		context.inFiles.forEach(function (inFile) {
+		context.inFiles.forEach(function(inFile) {
 			filesDef.src.push(path.join(context.inDir, inFile));
 		});
 
@@ -115,7 +116,7 @@ module.exports = function (grunt) {
 					'<%= globalCfg.distDir %>/app/css'
 				],
 				blockReplacements: {
-					less: function (block) {
+					less: function(block) {
 						return '<link rel="stylesheet" href="' + block.dest + '">';
 					}
 				}
@@ -145,19 +146,30 @@ module.exports = function (grunt) {
 					keepalive: true
 				}
 			},
-			flynn: {
+			node: {
 				options: {
-					port: process.env.PORT || 5000,
+					port: 5000,
 					base: '<%= globalCfg.distDir %>',
-					keepalive: true
-				}
+					debug: true,
+					keepalive: true,
+					middleware: function(connect, options, defaultMiddleware) {
+						var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
+						return [proxy].concat(defaultMiddleware);
+					}
+				},
+				proxies: [
+					{
+						context: '/light',
+						host: 'localhost',
+						port: 3000
+					}
+				]
 			}
 		}
 	});
 
 	grunt.registerTask('compile', [
 		'clean',
-		'tslint',
 		'ts',
 	]);
 
@@ -177,4 +189,8 @@ module.exports = function (grunt) {
 		'usemin'
 	]);
 	grunt.registerTask('web', ['connect:dev']);
+	grunt.registerTask('web-node', [
+		'configureProxies:node',
+		'connect:node'
+	]);
 };

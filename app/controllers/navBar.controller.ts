@@ -13,11 +13,8 @@ namespace app {
 
 		constructor($scope: INavBarControllerScope) {
 			this.$scope = $scope;
-
-			this.$scope.isCollapsed = true;
-			this.$scope.pseudo = 'BeHappy';
 		}
 	}
 
-	angular.module('starterKit').controller('NavBarController', ['$scope', NavBarController]);
+	angular.module('clientHUE').controller('NavBarController', ['$scope', NavBarController]);
 }
