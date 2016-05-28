@@ -11,7 +11,8 @@ namespace app.game_engine {
 		private isRemoteChange: boolean;
 
 		public RenderLoop(scene: BABYLON.Scene): void {
-			if (this.IsUpdating(scene) && !this.isRemoteChange) {
+			//if (this.IsUpdating(scene) && !this.isRemoteChange) {
+				if (this.IsUpdating(scene)) {
 
 				this.ManageLight(scene);
 			}
@@ -58,16 +59,16 @@ namespace app.game_engine {
 			this.newColor = newColor;
 			this.isRemoteChange = false;
 
-			this.businessLight.realData('stateLight', function(data: models.Light): void {
-				that.isRemoteChange = true;
-				that.newColor.color.r = data.color.r;
-				that.newColor.color.g = data.color.g;
-				that.newColor.color.b = data.color.b;
-				that.newColor.lightId = data.lightId;
-				that.newColor.state = data.state;
-				that.activeLight = data.state;
+			// this.businessLight.realData('stateLight', function(data: models.Light): void {
+			// 	that.isRemoteChange = true;
+			// 	that.newColor.color.r = data.color.r;
+			// 	that.newColor.color.g = data.color.g;
+			// 	that.newColor.color.b = data.color.b;
+			// 	that.newColor.lightId = data.lightId;
+			// 	that.newColor.state = data.state;
+			// 	that.activeLight = data.state;
 
-			})
+			// })
 		}
 
 
@@ -75,7 +76,7 @@ namespace app.game_engine {
 			return !(scene.lights[1].diffuse.b === this.newColor.color.b &&
 				scene.lights[1].diffuse.r === this.newColor.color.r &&
 				scene.lights[1].diffuse.g === this.newColor.color.g
-				&& scene.lights[1].isEnabled() === this.newColor.state
+				//&& scene.lights[1].isEnabled() === this.newColor.state
 			);
 		}
 
